@@ -387,27 +387,6 @@ def hist(img, direction=0):
 
     return histogram
 
-def findBase(histogram):
-    midpoint = np.int(histogram.shape[0] // 2)
-    index = np.argsort(histogram[:midpoint])
-    curMinDist = 10000
-    leftBase = 0
-    for ind in index:
-        if histogram[ind] > 30:
-            if abs(ind - midpoint) < curMinDist:
-                leftBase = ind
-                curMinDist = abs(ind - midpoint)
-                
-                
-    index = np.argsort(histogram[midpoint:])
-    curMinDist = 10000
-    rightBase = 0
-    for ind in index:
-        if histogram[ind + midpoint] > 30:
-             if ind < curMinDist:
-                rightBase = ind + midpoint
-                curMinDist = ind
-    return leftBase, rightBase
 def findLanePixels(binary_warped):
     """
 
@@ -540,8 +519,8 @@ def fitPolynomial(binary_warped, show=False):
         plt.figure()
         plt.imshow(binary_warped, cmap="gray")
         plt.figure()
-        #plt.plot(left_fitx, ploty, color='yellow')
-        #plt.plot(right_fitx, ploty, color='yellow')
+        plt.plot(left_fitx, ploty, color='yellow')
+        plt.plot(right_fitx, ploty, color='yellow')
     return out_img, [leftx, lefty], [rightx, righty], left_fit, right_fit, (midPointOfLane - binary_warped.shape[0])/2
 ```
 
@@ -832,8 +811,6 @@ from moviepy.editor import VideoFileClip
 from IPython.display import HTML
 MAKE = True
 ```
-
-**The make video cell is somehow working weirdly, as it doesn't complete even after the function is done, but the video can be made**
 
 
 ```python
